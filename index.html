@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrasi Doorprize</title>
+  <meta name="description" content="Daftarkan diri Anda untuk kesempatan memenangkan doorprize eksklusif!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #e8720c;
+      --orange-light: #fef0e1;
+      --orange-dark: #c25e08;
+      --orange-50: #fff7ed;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+      --red-500: #ef4444;
+      --red-50: #fef2f2;
+      --green-500: #22c55e;
+      --green-50: #f0fdf4;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container {
+      width: 100%;
+      max-width: 440px;
+      margin: auto;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+
+    .hero h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+    }
+
+    .hero p {
+      color: var(--gray-500);
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .hero .badge {
+      display: inline-block;
+      background: var(--orange-light);
+      color: var(--orange);
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray-900);
+    }
+
+    /* ===== FORM ===== */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 11px 12px 11px 40px;
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      color: var(--gray-900);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrapper input::placeholder {
+      color: var(--gray-400);
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232, 114, 12, 0.12);
+      background: var(--white);
+    }
+
+    .input-error {
+      color: var(--red-500);
+      font-size: 0.75rem;
+      margin-top: 4px;
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .input-error.show {
+      display: flex;
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: var(--orange-dark);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+
+    .btn-submit.loading .btn-text {
+      display: none;
+    }
+
+    .btn-submit.loading .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ===== ALERT ===== */
+    .alert {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.3;
+    }
+
+    .alert.show {
+      display: flex;
+    }
+
+    .alert-error {
+      background: var(--red-50);
+      border: 1px solid #fecaca;
+      color: var(--red-500);
+    }
+
+    .alert-success {
+      background: var(--green-50);
+      border: 1px solid #bbf7d0;
+      color: var(--green-500);
+    }
+
+    .alert-info {
+      background: var(--orange-50);
+      border: 1px solid #fed7aa;
+      color: var(--orange);
+    }
+
+    /* ===== SUCCESS / ALREADY SCREEN ===== */
+    #successScreen,
+    #alreadyScreen {
+      display: none;
+    }
+
+    #successScreen.show,
+    #alreadyScreen.show {
+      display: block;
+    }
+
+    .success-content {
+      text-align: center;
+    }
+
+    .result-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .success-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 4px;
+    }
+
+    .success-subtitle {
+      color: var(--gray-500);
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* ===== TICKET ===== */
+    .ticket-wrapper {
+      margin: 16px auto;
+      max-width: 100%;
+    }
+
+    .ticket-wrapper canvas {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: var(--orange-dark);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--gray-400);
+      font-size: 0.72rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      body {
+        padding: 16px 12px;
+      }
+
+      .hero h1 {
+        font-size: 1.3rem;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      .hero-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+        border-radius: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <div class="main-container">
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Pencanangan Sensus Ekonomi 2026</h1>
+      <p>Isi data singkat untuk mendapatkan nomor undian Anda.</p>
+      <div class="badge">✨ Semoga Beruntung ✨</div>
+    </div>
+
+    <!-- FORM -->
+    <div id="formScreen">
+      <div class="card">
+        <div class="card-title">
+          <span>📋</span> Data Peserta
+        </div>
+
+        <div class="alert" id="formAlert">
+          <span id="alertIcon"></span>
+          <span id="alertMsg"></span>
+        </div>
+
+        <form id="registrationForm" autocomplete="off">
+          <div class="form-group">
+            <label for="inputNama">Nama Lengkap</label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input type="text" id="inputNama" name="nama" placeholder="Masukkan nama lengkap" required
+                maxlength="100">
+            </div>
+            <div class="input-error" id="errorNama">⚠ Nama wajib diisi</div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputHp">Nomor HP / WhatsApp</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📱</span>
+              <input type="tel" id="inputHp" name="noHp" placeholder="08xxxxxxxxxx" required maxlength="15">
+            </div>
+            <div class="input-error" id="errorHp">⚠ Nomor HP tidak valid</div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="btnSubmit">
+            <span class="btn-text">🎟️ Dapatkan Nomor Undian</span>
+            <span class="spinner"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="successScreen">
+      <div class="card">
+        <div class="success-content">
+          <div class="result-icon">🎉</div>
+          <div class="success-title">Selamat, Anda Terdaftar!</div>
+          <div class="success-subtitle">Simpan nomor undian berikut sebagai bukti registrasi.</div>
+          <div class="ticket-wrapper">
+            <canvas id="ticketCanvas" width="760" height="420"></canvas>
+          </div>
+          <button class="btn-download" onclick="downloadTicket()">Simpan Kupon</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALREADY REGISTERED -->
+    <div id="alreadyScreen">
+      <div class="card">
+        <div class="success-content">
+          <!-- Logo Section -->
+          <div
+            style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;">
+            <img src="logo/BADAN PUSAT STATISTIK PROVINSI SUMATERA BARAT - 4.png" alt="Logo BPS Sumbar"
+              style="height: 50px; width: auto; object-fit: contain;">
+            <img src="logo/Logo SE2026 - utama_Horizontal Color.png" alt="Logo SE2026"
+              style="height: 50px; width: auto; object-fit: contain;">
+          </div>
+          <!-- <div class="result-icon">🔒</div> -->
+          <div class="success-title">Anda Sudah Terdaftar</div>
+          <div class="ticket-wrapper">
+            <canvas id="ticketCanvasExisting" width="760" height="420"></canvas>
+          </div>
+          <button class="btn-download" onclick="downloadTicketExisting()">Simpan Kupon</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybIich4AHg88VVznHqighFnRed--0axc-Yu_MqAS6tQKbpLRxm366sWyAR5XNQ4yex/exec";
+    const STORAGE_KEY = "doorprize_registered";
+    let userIp = "";
+
+    // ============================================================
+    // DOM
+    // ============================================================
+    const formScreen = document.getElementById("formScreen");
+    const successScreen = document.getElementById("successScreen");
+    const alreadyScreen = document.getElementById("alreadyScreen");
+    const registrationForm = document.getElementById("registrationForm");
+    const btnSubmit = document.getElementById("btnSubmit");
+    const formAlert = document.getElementById("formAlert");
+    const alertIcon = document.getElementById("alertIcon");
+    const alertMsg = document.getElementById("alertMsg");
+    const inputNama = document.getElementById("inputNama");
+    const inputHp = document.getElementById("inputHp");
+
+    // ============================================================
+    // GET PUBLIC IP
+    // ============================================================
+    async function getUserIp() {
+      const apis = [
+        "https://api.ipify.org?format=json",
+        "https://api.seeip.org/jsonip",
+        "https://api64.ipify.org?format=json"
+      ];
+      for (const api of apis) {
+        try {
+          const res = await fetch(api, { signal: AbortSignal.timeout(5000) });
+          const data = await res.json();
+          return data.ip;
+        } catch (_) { continue; }
+      }
+      return "";
+    }
+
+    // ============================================================
+    // CHECK IP ON SERVER
+    // ============================================================
+    async function checkIpOnServer(ip) {
+      try {
+        const url = `${APPS_SCRIPT_URL}?action=checkIp&ip=${encodeURIComponent(ip)}`;
+        const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+        return await res.json();
+      } catch (e) {
+        return { success: false };
+      }
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    async function init() {
+      // 1. Fast path: cek localStorage
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        try {
+          const data = JSON.parse(savedData);
+          showAlreadyRegistered(data.nomorUndian, data.nama);
+          return;
+        } catch (e) {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }
+
+      // 2. Cek IP di server
+      userIp = await getUserIp();
+      if (userIp) {
+        const check = await checkIpOnServer(userIp);
+        if (check.success && check.data) {
+          const save = {
+            nomorUndian: check.data.nomorUndian,
+            nama: check.data.nama,
+            timestamp: new Date().toISOString(),
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+          showAlreadyRegistered(check.data.nomorUndian, check.data.nama);
+        }
+      }
+    }
+
+    // ============================================================
+    // FORM SUBMIT
+    // ============================================================
+    registrationForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      hideAlert();
+
+      const nama = inputNama.value.trim();
+      const noHp = inputHp.value.trim();
+      let valid = true;
+
+      if (!nama) {
+        document.getElementById("errorNama").classList.add("show");
+        valid = false;
+      } else {
+        document.getElementById("errorNama").classList.remove("show");
+      }
+
+      const hpClean = noHp.replace(/[\s\-]/g, "");
+      if (!hpClean || !/^(\+62|62|08)[0-9]{8,13}$/.test(hpClean)) {
+        document.getElementById("errorHp").classList.add("show");
+        valid = false;
+      } else {
+        document.getElementById("errorHp").classList.remove("show");
+      }
+
+      if (!valid) return;
+
+      if (localStorage.getItem(STORAGE_KEY)) {
+        const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        showAlreadyRegistered(data.nomorUndian, data.nama);
+        return;
+      }
+
+      btnSubmit.classList.add("loading");
+      btnSubmit.disabled = true;
+
+      try {
+        if (!userIp) userIp = await getUserIp();
+
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ nama, noHp, ip: userIp }),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          const save = {
+            nomorUndian: result.data.nomorUndian,
+            nama: result.data.nama,
+            timestamp: new Date().toISOString(),
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+          showSuccess(result.data.nomorUndian, result.data.nama);
+        } else {
+          if (result.data && result.data.nomorUndian) {
+            const save = {
+              nomorUndian: result.data.nomorUndian,
+              nama: result.data.nama || nama,
+              timestamp: new Date().toISOString(),
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+            showAlreadyRegistered(save.nomorUndian, save.nama);
+          } else {
+            showAlert("error", result.message);
+          }
+        }
+      } catch (error) {
+        showAlert("error", "Gagal terhubung ke server. Silakan coba lagi.");
+      } finally {
+        btnSubmit.classList.remove("loading");
+        btnSubmit.disabled = false;
+      }
+    });
+
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    function showAlert(type, message) {
+      formAlert.className = `alert alert-${type} show`;
+      alertIcon.textContent = type === "error" ? "❌" : type === "success" ? "✅" : "ℹ️";
+      alertMsg.textContent = message;
+    }
+
+    function hideAlert() {
+      formAlert.className = "alert";
+    }
+
+    function showSuccess(nomorUndian, nama) {
+      formScreen.style.display = "none";
+      alreadyScreen.style.display = "none";
+      successScreen.classList.add("show");
+      drawTicket("ticketCanvas", nomorUndian, nama);
+
+    }
+
+    function showAlreadyRegistered(nomorUndian, nama) {
+      formScreen.style.display = "none";
+      successScreen.style.display = "none";
+      alreadyScreen.classList.add("show");
+      drawTicket("ticketCanvasExisting", nomorUndian, nama);
+    }
+
+    // ============================================================
+    // DRAW TICKET (Orange-White theme)
+    // ============================================================
+    function drawTicket(canvasId, nomorUndian, nama) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext("2d");
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // Background
+      ctx.fillStyle = "#ffffff";
+      roundRect(ctx, 0, 0, W, H, 20);
+      ctx.fill();
+
+      // Top orange bar
+      ctx.fillStyle = "#e8720c";
+      roundRectTop(ctx, 0, 0, W, 8, 20);
+      ctx.fill();
+
+      // Border
+      ctx.strokeStyle = "#e5e7eb";
+      ctx.lineWidth = 2;
+      roundRect(ctx, 1, 1, W - 2, H - 2, 20);
+      ctx.stroke();
+
+      // Inner dashed border
+      ctx.setLineDash([6, 5]);
+      ctx.strokeStyle = "#f3d5b5";
+      ctx.lineWidth = 1;
+      roundRect(ctx, 16, 16, W - 32, H - 32, 14);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Title
+      ctx.fillStyle = "#e8720c";
+      ctx.font = "600 14px 'Inter', sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("PENCANANGAN SENSUS EKONOMI 2026", W / 2, 58);
+
+      // Subtitle
+      ctx.fillStyle = "#9ca3af";
+      ctx.font = "400 12px 'Inter', sans-serif";
+      ctx.fillText("NOMOR UNDIAN", W / 2, 82);
+
+      // Separator
+      ctx.strokeStyle = "#f3d5b5";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(60, 98);
+      ctx.lineTo(W - 60, 98);
+      ctx.stroke();
+
+      // Nomor Undian
+      ctx.fillStyle = "#e8720c";
+      ctx.font = "800 64px 'Inter', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(nomorUndian, W / 2, 185);
+
+      // Separator 2
+      ctx.beginPath();
+      ctx.moveTo(60, 210);
+      ctx.lineTo(W - 60, 210);
+      ctx.stroke();
+
+      // Nama label
+      ctx.fillStyle = "#9ca3af";
+      ctx.font = "400 11px 'Inter', sans-serif";
+      ctx.fillText("TERDAFTAR ATAS NAMA", W / 2, 240);
+
+      // Nama
+      ctx.fillStyle = "#111827";
+      ctx.font = "600 20px 'Inter', sans-serif";
+      const displayName = nama.length > 30 ? nama.substring(0, 30) + "..." : nama;
+      ctx.fillText(displayName.toUpperCase(), W / 2, 270);
+
+      // Tanggal
+      const now = new Date();
+      const tgl = now.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+      const wkt = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+      ctx.fillStyle = "#9ca3af";
+      ctx.font = "400 11px 'Inter', sans-serif";
+      ctx.fillText(`${tgl} • ${wkt} WIB`, W / 2, 310);
+
+      // Bottom badge
+      const bW = 250, bH = 28;
+      const bX = (W - bW) / 2, bY = H - 52;
+      ctx.fillStyle = "#fff7ed";
+      roundRect(ctx, bX, bY, bW, bH, 14);
+      ctx.fill();
+      ctx.strokeStyle = "#fed7aa";
+      ctx.lineWidth = 1;
+      roundRect(ctx, bX, bY, bW, bH, 14);
+      ctx.stroke();
+      ctx.fillStyle = "#e8720c";
+      ctx.font = "600 10px 'Inter', sans-serif";
+      ctx.fillText("SIMPAN KUPON INI UNTUK UNDIAN HADIAH", W / 2, bY + 18);
+    }
+
+    // ============================================================
+    // CANVAS HELPERS
+    // ============================================================
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function roundRectTop(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h);
+      ctx.lineTo(x, y + h);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    // ============================================================
+    // DOWNLOAD
+    // ============================================================
+    function downloadTicket() {
+      downloadCanvasImage(document.getElementById("ticketCanvas"));
+    }
+
+    function downloadTicketExisting() {
+      downloadCanvasImage(document.getElementById("ticketCanvasExisting"));
+    }
+
+    function downloadCanvasImage(canvas) {
+      const link = document.createElement("a");
+      link.download = "nomor-undian-doorprize.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+
+
+
+    // ============================================================
+    // INPUT FORMATTING
+    // ============================================================
+    inputHp.addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9+\-\s]/g, "");
+    });
+
+    inputNama.addEventListener("input", function () {
+      document.getElementById("errorNama").classList.remove("show");
+    });
+
+    inputHp.addEventListener("input", function () {
+      document.getElementById("errorHp").classList.remove("show");
+    });
+
+    // ============================================================
+    // START
+    // ============================================================
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+
+</html>
