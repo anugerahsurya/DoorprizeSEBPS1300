@@ -530,7 +530,7 @@
     // ============================================================
     // CONFIG
     // ============================================================
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmVBABWyr8o9Dvuv1tYJ2hkei9t0xfC6xWoalegawSSIIoLCUg-9ThDjItdkE8TELa/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzQZv4SPme3z69hcV09bOhnyzjmqTNqgeN4vgOCGQUOiuc8HfE_pPkqQiuVrQlmiAU/exec";
     const STORAGE_KEY = "doorprize_registered";
     let userIp = "";
 
@@ -619,6 +619,17 @@
         try {
           const data = JSON.parse(savedData);
           showAlreadyRegistered(data.nomorUndian, data.nama);
+
+          // Background check: sinkronisasi dengan server
+          userIp = await getUserIp();
+          checkIpOnServer(userIp).then(check => {
+            if (!check.success || !check.data) {
+              // Jika di server ternyata sudah dihapus, hapus memori lokal dan refresh
+              localStorage.removeItem(STORAGE_KEY);
+              location.reload();
+            }
+          }).catch(err => console.error("Sync error:", err));
+
           return;
         } catch (e) {
           localStorage.removeItem(STORAGE_KEY);
@@ -666,7 +677,7 @@
       }
 
       const hpClean = noHp.replace(/[\s\-]/g, "");
-      if (!hpClean || !/^(\+62|62|08)[0-9]{8,13}$/.test(hpClean)) {
+      if (!hpClean || !/^(\+62|62|08)[1235789][0-9]{7,11}$/.test(hpClean)) {
         document.getElementById("errorHp").classList.add("show");
         valid = false;
       } else {

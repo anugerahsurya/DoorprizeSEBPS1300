@@ -72,9 +72,9 @@ function doPost(e) {
       return createResponse(false, "Nama dan No HP wajib diisi", null);
     }
 
-    // Validasi format nomor HP
-    if (!/^(\+62|62|08)[0-9]{8,13}$/.test(noHp.replace(/[\s\-]/g, ""))) {
-      return createResponse(false, "Format nomor HP tidak valid", null);
+    // Validasi format nomor HP (Harus Prefix Provider Indonesia: 081, 082, 083, 085, 087, 088, 089)
+    if (!/^(\+62|62|08)[1235789][0-9]{7,11}$/.test(noHp.replace(/[\s\-]/g, ""))) {
+      return createResponse(false, "Format nomor HP tidak valid atau bukan nomor Indonesia", null);
     }
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
