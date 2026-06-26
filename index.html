@@ -530,7 +530,7 @@
     // ============================================================
     // CONFIG
     // ============================================================
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzQZv4SPme3z69hcV09bOhnyzjmqTNqgeN4vgOCGQUOiuc8HfE_pPkqQiuVrQlmiAU/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzK_C85M-FaZerRGEq9p4VFg32fM7s-xu0PdXWckYpE7wHKGgxWnzHwO27YC9bV0SEY/exec";
     const STORAGE_KEY = "doorprize_registered";
     let userIp = "";
 
@@ -636,26 +636,26 @@
         }
       }
 
-      // 2. Cek IP di server
-      userIp = await getUserIp();
-      if (userIp) {
-        const check = await checkIpOnServer(userIp);
-        if (check.success && check.data) {
-          const save = {
-            nomorUndian: check.data.nomorUndian,
-            nama: check.data.nama,
-            timestamp: new Date().toISOString(),
-          };
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
-          showAlreadyRegistered(check.data.nomorUndian, check.data.nama);
-          return;
-        }
-      }
-
-      // Jika belum terdaftar, hilangkan loading dan tampilkan form
+      // Tampilkan form seketika (Fast loading)
       loadingScreen.classList.remove("show");
       loadingScreen.style.display = "none";
       formScreen.style.display = "block";
+
+      // 2. Cek IP di server secara background (tanpa memblokir loading UI)
+      userIp = await getUserIp();
+      if (userIp) {
+        checkIpOnServer(userIp).then(check => {
+          if (check.success && check.data) {
+            const save = {
+              nomorUndian: check.data.nomorUndian,
+              nama: check.data.nama,
+              timestamp: new Date().toISOString(),
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+            showAlreadyRegistered(check.data.nomorUndian, check.data.nama);
+          }
+        }).catch(err => console.error("Bg sync error:", err));
+      }
     }
 
     // ============================================================

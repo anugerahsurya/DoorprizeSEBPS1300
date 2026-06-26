@@ -86,15 +86,25 @@ function doPost(e) {
 
     // Cek apakah nomor HP atau Perangkat sudah terdaftar
     const existingData = sheet.getDataRange().getValues();
+    
+    // Fungsi untuk menormalkan nomor HP (mengatasi +62, 62, 08, dan angka 8 yang hilang nol di depannya karena Google Sheets)
+    const normalizeHp = (hp) => {
+      let s = String(hp).replace(/[^0-9]/g, ""); // hanya ambil angka
+      if (s.startsWith("62")) {
+        s = "0" + s.substring(2);
+      } else if (s.startsWith("8")) {
+        s = "0" + s;
+      }
+      return s;
+    };
+    
+    const inputHpNorm = normalizeHp(noHp);
+
     for (let i = 1; i < existingData.length; i++) {
       // Cek duplikat nomor HP
-      const existingHp = String(existingData[i][2]).replace(/[\s\-]/g, "");
-      const inputHp = noHp.replace(/[\s\-]/g, "");
-      if (existingHp === inputHp) {
-        return createResponse(false, "Nomor HP sudah terdaftar", {
-          nomorUndian: existingData[i][3],
-          nama: existingData[i][1]
-        });
+      const existingHpNorm = normalizeHp(existingData[i][2]);
+      if (existingHpNorm === inputHpNorm) {
+        return createResponse(false, "Nomor HP sudah terdaftar. Silakan gunakan nomor lain.", null);
       }
 
       // Cek duplikat Device ID
@@ -113,8 +123,8 @@ function doPost(e) {
     // Timestamp
     const waktu = Utilities.formatDate(new Date(), "Asia/Jakarta", "dd/MM/yyyy HH:mm:ss");
 
-    // Simpan ke spreadsheet (termasuk ID Perangkat di kolom 6)
-    sheet.appendRow([nomorUrut, nama, noHp, nomorUndian, waktu, deviceId]);
+    // Simpan ke spreadsheet (termasuk ID Perangkat di kolom 6, tambah petik di noHp agar jadi text)
+    sheet.appendRow([nomorUrut, nama, "'" + noHp, nomorUndian, waktu, deviceId]);
 
     return createResponse(true, "Registrasi berhasil!", {
       nomorUndian: nomorUndian,
